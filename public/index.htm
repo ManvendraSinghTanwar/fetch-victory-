@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Detection Tool</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Object Detection Tool</h1>
+        
+        <div class="upload-section">
+            <input type="file" id="fileInput" accept="image/*">
+            <button id="uploadButton">Upload Image</button>
+        </div>
+
+        <h2 id="statusMessage"></h2>
+
+        <div id="resultContainer">
+            <h3>Detection Results</h3>
+            <div class="canvas-wrapper">
+                <canvas id="resultCanvas"></canvas>
+                <img id="resultImage" src="" alt="Result Image" />
+            </div>
+        </div>
+
+        <div class="controls">
+            <label for="classLabelDropdown">Class Label:</label>
+            <select id="classLabelDropdown">
+                <option value="person">Person</option>
+                <option value="car">Car</option>
+                <option value="truck">Truck</option>
+                <option value="bicycle">Bicycle</option>
+                <option value="custom">Custom</option>
+            </select>
+            <input type="text" id="customLabelInput" placeholder="Enter custom label" style="display: none;">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
