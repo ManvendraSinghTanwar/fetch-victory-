@@ -91,7 +91,10 @@ canvas.addEventListener('mousedown', (e) => {
         }
     } else {
         isDrawing = true;
-        newBox = { rect: [startX, startY, startX, startY], label: document.getElementById('classLabelDropdown').value === 'custom' ? document.getElementById('customLabelInput').value : document.getElementById('classLabelDropdown').value };
+        newBox = { 
+            rect: [startX, startY, startX, startY], 
+            label: document.getElementById('classLabelDropdown').value === 'custom' ? document.getElementById('customLabelInput').value : document.getElementById('classLabelDropdown').value 
+        };
     }
 });
 
@@ -141,6 +144,7 @@ canvas.addEventListener('mouseup', () => {
     }
 });
 
+// Class label dropdown change listener
 document.getElementById('classLabelDropdown').addEventListener('change', (e) => {
     if (e.target.value === 'custom') {
         document.getElementById('customLabelInput').style.display = 'inline';
@@ -149,6 +153,18 @@ document.getElementById('classLabelDropdown').addEventListener('change', (e) => 
         if (selectedBox) {
             selectedBox.label = e.target.value;
             drawBoxes(boxes);
+        }
+    }
+});
+
+// Delete Label Button functionality
+document.getElementById('deleteLabelButton').addEventListener('click', () => {
+    if (selectedBox) {
+        const index = boxes.indexOf(selectedBox);
+        if (index > -1) {
+            boxes.splice(index, 1);
+            selectedBox = null; // Clear the selected box
+            drawBoxes(boxes); // Redraw boxes
         }
     }
 });
@@ -165,3 +181,21 @@ function checkNearEdge(x, y, box) {
     const nearBottomEdge = Math.abs(y - box.rect[3]) < edgeThreshold;
     return nearRightEdge || nearBottomEdge;
 }
+
+// Export Annotations Button functionality
+document.getElementById('exportButton').addEventListener('click', () => {
+    const annotations = boxes.map(box => ({
+        label: box.label,
+        rect: box.rect
+    }));
+
+    const blob = new Blob([JSON.stringify(annotations, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'annotations.json';
+    a.click();
+
+    URL.revokeObjectURL(url);
+});
